@@ -1,0 +1,3 @@
+// hash:{{hash}}
+declare const styles: {{typeDefinition}};
+export default styles;

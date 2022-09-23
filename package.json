@@ -1,0 +1,25 @@
+{
+  "name": "scss-typer",
+  "version": "0.0.1",
+  "description": "A node-module to add typescript type definitions to scss modules",
+  "bin": "src/index.js",
+  "scripts": {
+    "lint": "eslint src"
+  },
+  "keywords": [
+    "sass",
+    "typescript",
+    "scss"
+  ],
+  "author": "N-Ziermann",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "eslint": "^8.23.1",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "typescript": "^4.8.3"
+  }
+}
