@@ -1,3 +1,4 @@
+// This file was AUTOMATICALLY GENERATED using scss-typer
 // hash:{{hash}}
 declare const styles: {{typeDefinition}};
 export default styles;
