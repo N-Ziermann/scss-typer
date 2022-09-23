@@ -1,27 +1,27 @@
 #!/usr/bin/env node
-const fs = require('fs')
-const path = require('path')
-const crypto = require('crypto')
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'fs'
+import { join } from 'path'
+import { createHash } from 'crypto'
 
 const dir = process.argv[2] ?? '.'
-const templateLocation = path.join(__dirname, './d.ts.template')
-const template = fs.readFileSync(templateLocation)?.toString()
+const templateLocation = join(__dirname, '../d.ts.template')
+const template = readFileSync(templateLocation)?.toString()
 
 executeCommand()
 
-function executeCommand () {
+function executeCommand (): void {
   const fileNames = getAllFiles(dir)
   let numFilesConverted = 0
 
   fileNames.forEach((filePath) => {
-    const fileContent = fs.readFileSync(filePath).toString()
+    const fileContent = readFileSync(filePath).toString()
     const hash = getHash(fileContent)
 
     if (!needsNewTypes(filePath, hash)) {
       return
     }
 
-    fs.writeFileSync(
+    writeFileSync(
       `${filePath}.d.ts`,
       template
         .replace('{{hash}}', hash)
@@ -33,14 +33,14 @@ function executeCommand () {
   console.info(`${numFilesConverted} file(s) changed!\n`)
 }
 
-function getAllFiles (location) {
+function getAllFiles (location: string): string[] {
   /* Recursively get all files in the defined directory */
-  const directoryContent = fs.readdirSync(location).map(entry => path.join(location, entry))
-  const subDirectories = []
-  let files = []
+  const directoryContent = readdirSync(location).map(entry => join(location, entry))
+  const subDirectories: string[] = []
+  let files: string[] = []
 
   directoryContent.forEach(entry => {
-    const entryData = fs.statSync(entry)
+    const entryData = statSync(entry)
     if (entryData.isFile()) {
       files.push(entry)
     } else if (entryData.isDirectory()) {
@@ -56,15 +56,15 @@ function getAllFiles (location) {
   return files
 }
 
-function getHash (fileContent) {
-  return crypto.createHash('md5').update(fileContent).digest('hex')
+function getHash (fileContent: string): string {
+  return createHash('md5').update(fileContent).digest('hex')
 }
 
-function needsNewTypes (filePath, hash) {
+function needsNewTypes (filePath: string, hash: string): boolean {
   // TODO: also read and compare hash stored in existing file here
   const definitionPath = `${filePath}.d.ts`
-  if (fs.existsSync(definitionPath)) {
-    const definitionContent = fs.readFileSync(definitionPath)
+  if (existsSync(definitionPath)) {
+    const definitionContent = readFileSync(definitionPath)
     if (definitionContent.includes(`hash:${hash}`)) {
       return false
     }
@@ -72,13 +72,13 @@ function needsNewTypes (filePath, hash) {
   return filePath.endsWith('.module.scss')
 }
 
-function getClassNames (fileContent) {
+function getClassNames (fileContent: string): string[] {
   const classRegex = /\.[a-zA-z0-9]*/g
   const matches = [...fileContent.matchAll(classRegex)]
   return matches.map(result => result[0].replace('.', ''))
 }
 
-function getTypeDefinitionString (fileContent) {
+function getTypeDefinitionString (fileContent: string): string {
   const classes = getClassNames(fileContent)
   let result = '{\n'
   classes.forEach(className => {
