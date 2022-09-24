@@ -11,6 +11,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "downlevelIteration": true
+  },
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "testFiles",
+    "*.js",
+    "build"
+  ]
 }
