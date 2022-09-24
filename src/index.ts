@@ -35,6 +35,9 @@ function executeCommand (): void {
 
 function getAllFiles (location: string): string[] {
   /* Recursively get all files in the defined directory */
+  if (statSync(location).isFile()) {
+    return [location]
+  }
   const directoryContent = readdirSync(location).map(entry => join(location, entry))
   const subDirectories: string[] = []
   let files: string[] = []
