@@ -1,6 +1,6 @@
 {
   "name": "scss-typer",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A node-module to add typescript type definitions to scss modules",
   "bin": "build/index.js",
   "scripts": {
