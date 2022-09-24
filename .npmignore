@@ -7,3 +7,7 @@ testFiles/
 .*
 .github/
 tsconfig.json
+
+#tests
+coverage/
+*.test.*
