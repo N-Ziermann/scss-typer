@@ -1,4 +1,7 @@
-# SCSS-Typer
+# SCSS-Typer 
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/N-Ziermann/scss-typer/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/scss-typer.svg?style=flat)](https://www.npmjs.com/package/scss-typer) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) ![CI status](https://github.com/N-Ziermann/scss-typer/actions/workflows/main.yml/badge.svg)
+
 A node script/package to automatically generate TypeScript type definitions for all your .module.scss files.
 
 ## Usage
