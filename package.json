@@ -14,6 +14,10 @@
   ],
   "author": "N-Ziermann",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/N-Ziermann/scss-typer.git"
+  },
   "devDependencies": {
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
