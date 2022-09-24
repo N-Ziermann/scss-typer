@@ -12,6 +12,7 @@ jest.mock('fs', () => ({
 describe('index.ts', () => {
   beforeEach(() => jest.clearAllMocks())
   it('should call executeCommand with . and the template when no directory is provided', () => {
+    global.process.argv = ['node', 'index.js']
     main()
     expect(executeCommand).toHaveBeenCalledWith('.', 'templateText')
   })
