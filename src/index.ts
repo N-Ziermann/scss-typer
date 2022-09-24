@@ -75,7 +75,8 @@ function needsNewTypes (filePath: string, hash: string): boolean {
 function getClassNames (fileContent: string): string[] {
   const classRegex = /\.[a-zA-z0-9]*/g
   const matches = [...fileContent.matchAll(classRegex)]
-  return matches.map(result => result[0].replace('.', ''))
+  const classNames = matches.map(result => result[0].replace('.', ''))
+  return [...new Set(classNames)] // removes duplicates
 }
 
 function getTypeDefinitionString (fileContent: string): string {
