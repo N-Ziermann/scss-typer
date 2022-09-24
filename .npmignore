@@ -1,0 +1,9 @@
+#folders
+src/
+node_modules/
+testFiles/
+
+#dotfiles & config files
+.*
+.github/
+tsconfig.json
