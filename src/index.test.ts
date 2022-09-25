@@ -14,7 +14,7 @@ describe('index.ts', () => {
   beforeEach(() => jest.clearAllMocks())
 
   it('should run logHelp and then stop when the --help flag is provided', () => {
-    global.process.argv = ['node', 'index.js', "--help"]
+    global.process.argv = ['node', 'index.js', '--help']
     main()
     expect(logHelp).toHaveBeenCalled()
     expect(executeCommand).not.toHaveBeenCalled()
