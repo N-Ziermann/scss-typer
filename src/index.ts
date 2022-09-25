@@ -8,7 +8,11 @@ main()
 
 export function main (): void {
   program
-    .version(String(process.env.npm_package_version))
+    .version(
+      JSON.parse(
+        readFileSync(join(__dirname, '../package.json'), 'utf8')
+      ).version
+    )
     .usage('/path/to/file/or/directory [OPTIONS]')
     .argument('<path>')
     .option('-a, --all', 'also recreate type definitions for files that didn\'t change')

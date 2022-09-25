@@ -7,7 +7,12 @@ jest.mock('./functions', () => ({
 }))
 
 jest.mock('fs', () => ({
-  readFileSync: jest.fn().mockReturnValue('templateText')
+  readFileSync: jest.fn().mockImplementation((path: string) => {
+    if (path.includes('package.json')) {
+      return JSON.stringify({ version: '1.0.0' })
+    }
+    return 'templateText'
+  })
 }))
 
 jest.mock('commander', () => ({
