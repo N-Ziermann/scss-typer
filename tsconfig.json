@@ -14,11 +14,10 @@
     "skipLibCheck": true,
     "downlevelIteration": true
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
-    "node_modules",
-    "coverage",
-    "testFiles",
-    "*.js",
-    "build"
+    "src/**/*.test.ts",
   ]
 }
