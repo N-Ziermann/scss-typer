@@ -88,3 +88,12 @@ export function getTypeDefinitionString (classes: string[]): string {
   })
   return `${result}}`
 }
+
+export function logHelp (): void {
+  console.info(
+    'Usage: scss-typer /path/to/file/or/directory [-a|--all|--help]\n\n' +
+    'Options:\n' +
+    '\t--help\t\t\tGet this information\n' +
+    '\t-a, --all\t\tAlso recreate type definitions for files that didn\'t change\n'
+  )
+}

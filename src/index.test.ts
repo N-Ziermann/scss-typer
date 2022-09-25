@@ -1,8 +1,9 @@
-import { executeCommand } from './functions'
+import { executeCommand, logHelp } from './functions'
 import { main } from './index'
 
 jest.mock('./functions', () => ({
-  executeCommand: jest.fn()
+  executeCommand: jest.fn(),
+  logHelp: jest.fn()
 }))
 
 jest.mock('fs', () => ({
@@ -11,6 +12,14 @@ jest.mock('fs', () => ({
 
 describe('index.ts', () => {
   beforeEach(() => jest.clearAllMocks())
+
+  it('should run logHelp and then stop when the --help flag is provided', () => {
+    global.process.argv = ['node', 'index.js', "--help"]
+    main()
+    expect(logHelp).toHaveBeenCalled()
+    expect(executeCommand).not.toHaveBeenCalled()
+  })
+
   it('should call executeCommand with . and the template when no directory is provided', () => {
     global.process.argv = ['node', 'index.js']
     main()

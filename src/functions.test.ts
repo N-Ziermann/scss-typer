@@ -178,4 +178,12 @@ describe('functions.ts', () => {
       )
     })
   })
+
+  describe('logHelp', () => {
+    it('should show help information in the console', () => {
+      global.console.info = jest.fn()
+      functions.logHelp()
+      expect(global.console.info).toHaveBeenCalled()
+    })
+  })
 })
