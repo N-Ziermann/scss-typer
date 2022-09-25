@@ -6,11 +6,15 @@ A node script/package to automatically generate TypeScript type definitions for 
 
 ## Usage
 
-    npx scss-typer /path/to/file/or/directory
+    npx scss-typer /path/to/file/or/directory [-a|--all]
 
 Just run the script using npx (or install it globally) and run it on a chosen file or directory. It will recursively go over all .module.scss files in the directory and create .d.ts type definitions for them.
+
 If there already are type definitions it will only recreate them if the SCSS file was modified.
-_You should configure your IDE to run the script on save for the best possible experience!_
+
+If you want to also recreate existing type definitions, run the command with the _--all_ or _-a_ flag.
+
+You should configure your IDE to run the script _on save_ for the best possible experience!
 
 ## Benefits
 
