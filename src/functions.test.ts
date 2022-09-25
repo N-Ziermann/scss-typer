@@ -44,7 +44,7 @@ describe('functions.ts', () => {
   describe('executeCommand', () => {
     it('should not create any files if no module.scss files are found', () => {
       jest.spyOn(functions, 'getAllFiles').mockReturnValueOnce([])
-      functions.executeCommand('.', template)
+      functions.executeCommand('.', template, false)
       expect(writeFileSync).not.toHaveBeenCalled()
       expect(readFileSync).not.toHaveBeenCalled()
     })
@@ -54,17 +54,17 @@ describe('functions.ts', () => {
         .spyOn(functions, 'getAllFiles')
         .mockReturnValueOnce(['a.module.scss'])
       jest.spyOn(functions, 'needsNewTypes').mockReturnValueOnce(true)
-      functions.executeCommand('.', template)
+      functions.executeCommand('.', template, false)
       expect(readFileSync).toHaveBeenCalled()
       expect(writeFileSync).toHaveBeenCalled()
     })
 
-    it('should not create a definition file if a module.scss files that doesnt need a definition', () => {
+    it('should not create a definition file for a module.scss files that doesnt need a definition', () => {
       jest
         .spyOn(functions, 'getAllFiles')
         .mockReturnValueOnce(['a.module.scss'])
       jest.spyOn(functions, 'needsNewTypes').mockReturnValueOnce(false)
-      functions.executeCommand('.', template)
+      functions.executeCommand('.', template, false)
       expect(readFileSync).toHaveBeenCalled()
       expect(writeFileSync).not.toHaveBeenCalled()
     })
@@ -134,7 +134,7 @@ describe('functions.ts', () => {
       existsMock.mockReturnValueOnce(true)
       readFileMock.mockReturnValueOnce(`hash:${hash}`)
 
-      const result = functions.needsNewTypes('./test.module.scss', hash)
+      const result = functions.needsNewTypes('./test.module.scss', hash, false)
       expect(result).toBeFalsy()
     })
 
@@ -143,7 +143,7 @@ describe('functions.ts', () => {
       const existsMock = existsSync as jest.Mock
       existsMock.mockReturnValueOnce(false)
 
-      const result = functions.needsNewTypes('./test.module.scss', hash)
+      const result = functions.needsNewTypes('./test.module.scss', hash, false)
       expect(result).toBeTruthy()
     })
 
@@ -155,7 +155,18 @@ describe('functions.ts', () => {
       existsMock.mockReturnValueOnce(true)
       readFileMock.mockReturnValueOnce(`hash:${hash1}`)
 
-      const result = functions.needsNewTypes('./test.module.scss', hash2)
+      const result = functions.needsNewTypes('./test.module.scss', hash2, false)
+      expect(result).toBeTruthy()
+    })
+
+    it('should always recreate type definitions when renew is set to true', () => {
+      const hash = 'abc1234'
+      const existsMock = existsSync as jest.Mock
+      const readFileMock = readFileSync as jest.Mock
+      existsMock.mockReturnValueOnce(true)
+      readFileMock.mockReturnValueOnce(`hash:${hash}`)
+
+      const result = functions.needsNewTypes('./test.module.scss', hash, true)
       expect(result).toBeTruthy()
     })
   })

@@ -7,7 +7,8 @@ main()
 
 export function main (): void {
   const dir = process.argv[2] ?? '.'
+  const renew = process.argv[3] === '--all' || process.argv[3] === '-a'
   const templateLocation = join(__dirname, '../d.ts.template')
   const template = readFileSync(templateLocation).toString()
-  executeCommand(dir, template)
+  executeCommand(dir, template, renew)
 }

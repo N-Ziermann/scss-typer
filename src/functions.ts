@@ -10,7 +10,7 @@ import { join } from 'path'
 import { createHash } from 'crypto'
 import * as functions from './functions' // improves testability
 
-export function executeCommand (dir: string, template: string): void {
+export function executeCommand (dir: string, template: string, renew: boolean): void {
   const fileNames = functions.getAllFiles(dir)
   let numFilesConverted = 0
 
@@ -18,7 +18,7 @@ export function executeCommand (dir: string, template: string): void {
     const fileContent = readFileSync(filePath).toString()
     const hash = functions.getHash(fileContent)
 
-    if (!functions.needsNewTypes(filePath, hash)) {
+    if (!functions.needsNewTypes(filePath, hash, renew)) {
       return
     }
 
@@ -62,9 +62,10 @@ export function getHash (fileContent: string): string {
   return createHash('md5').update(fileContent).digest('hex')
 }
 
-export function needsNewTypes (filePath: string, hash: string): boolean {
+export function needsNewTypes (filePath: string, hash: string, renew: boolean): boolean {
+  // renew creates new definition even if the current one is up to date
   const definitionPath = `${filePath}.d.ts`
-  if (existsSync(definitionPath)) {
+  if (!renew && existsSync(definitionPath)) {
     const definitionContent = readFileSync(definitionPath)
     if (definitionContent.includes(`hash:${hash}`)) {
       return false
