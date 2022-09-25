@@ -9,7 +9,7 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    project: ["./tsconfig.json"]
+    project: ["./tsconfig.eslint.json"]
   },
   rules: {
   }
