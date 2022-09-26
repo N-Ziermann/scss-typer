@@ -119,7 +119,7 @@ describe('functions.ts', () => {
       const classNames = functions.getClassNames(
         '.classA {margin: 2.5rem;}'
       )
-      expect(classNames).toEqual(["classA"])
+      expect(classNames).toEqual(['classA'])
     })
   })
 
