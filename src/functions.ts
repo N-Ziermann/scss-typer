@@ -66,8 +66,8 @@ export function needsNewTypes (filePath: string, hash: string, renew: boolean): 
   // renew creates new definition even if the current one is up to date
   const definitionPath = `${filePath}.d.ts`
   if (!renew && existsSync(definitionPath)) {
-    const definitionContent = readFileSync(definitionPath)
-    if (definitionContent.includes(`hash:${hash}`)) {
+    const definitionContent = readFileSync(definitionPath).toString()
+    if (definitionContent.includes(hash)) {
       return false
     }
   }
