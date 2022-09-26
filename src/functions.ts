@@ -12,8 +12,6 @@ import * as functions from './functions' // improves testability
 
 export function executeCommand (dir: string, template: string, renew: boolean): void {
   const fileNames = functions.getAllFiles(dir)
-  let numFilesConverted = 0
-
   fileNames.forEach((filePath) => {
     const fileContent = readFileSync(filePath).toString()
     const hash = functions.getHash(fileContent)
@@ -33,10 +31,9 @@ export function executeCommand (dir: string, template: string, renew: boolean): 
           functions.getTypeDefinitionString(classNames)
         )
     )
-    numFilesConverted++
   })
 
-  console.info(`${numFilesConverted} file(s) changed!\n`)
+  console.info('Done creating files!\n')
 }
 
 export function getAllFiles (location: string): string[] {
@@ -64,14 +61,18 @@ export function getHash (fileContent: string): string {
 
 export function needsNewTypes (filePath: string, hash: string, renew: boolean): boolean {
   // renew creates new definition even if the current one is up to date
-  const definitionPath = `${filePath}.d.ts`
-  if (!renew && existsSync(definitionPath)) {
-    const definitionContent = readFileSync(definitionPath).toString()
-    if (definitionContent.includes(hash)) {
-      return false
+  if (filePath.endsWith('.module.scss')) {
+    const definitionPath = `${filePath}.d.ts`
+    console.info(definitionPath)
+    if (!renew && existsSync(definitionPath)) {
+      const definitionContent = readFileSync(definitionPath).toString()
+      if (definitionContent.includes(hash)) {
+        return false
+      }
     }
+    return true
   }
-  return filePath.endsWith('.module.scss')
+  return false
 }
 
 export function getClassNames (fileContent: string): string[] {

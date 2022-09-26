@@ -176,6 +176,16 @@ describe('functions.ts', () => {
       const result = functions.needsNewTypes('./test.module.scss', hash, true)
       expect(result).toBeTruthy()
     })
+
+    it('should always return false if the given file is not a .module.scss file', () => {
+      const existsMock = existsSync as jest.Mock
+      const readFileMock = readFileSync as jest.Mock
+      existsMock.mockReturnValueOnce(true)
+      readFileMock.mockReturnValueOnce('hash:a')
+
+      const result = functions.needsNewTypes('./test.js', 'a', true)
+      expect(result).toBeFalsy()
+    })
   })
 
   describe('getHash', () => {
