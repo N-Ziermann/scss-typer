@@ -114,6 +114,13 @@ describe('functions.ts', () => {
       )
       expect(classNames).toHaveLength(1)
     })
+
+    it('should not recognize floats as classes', () => {
+      const classNames = functions.getClassNames(
+        '.classA {margin: 2.5rem;}'
+      )
+      expect(classNames).toEqual(["classA"])
+    })
   })
 
   describe('getTypeDefinitionString', () => {

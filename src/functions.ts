@@ -75,7 +75,7 @@ export function needsNewTypes (filePath: string, hash: string, renew: boolean): 
 }
 
 export function getClassNames (fileContent: string): string[] {
-  const classRegex = /\.[a-zA-z0-9]*/g
+  const classRegex = /\.-?[_a-zA-Z][_a-zA-Z0-9-]*/g
   const matches = [...fileContent.matchAll(classRegex)]
   const classNames = matches.map((result) => result[0].replace('.', ''))
   return [...new Set(classNames)] // removes duplicates
