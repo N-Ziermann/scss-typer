@@ -1,6 +1,6 @@
 {
   "name": "scss-typer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A node script/package to automatically generate TypeScript type definitions for all your .module.scss files",
   "bin": "build/index.js",
   "scripts": {
