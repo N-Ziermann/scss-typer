@@ -131,6 +131,14 @@ describe('functions.ts', () => {
       ])
       expect(definition).toEqual('{\n\tclassA: string;\n\tclassB: string;\n}')
     })
+
+    it('should convert a className with a dash object into a typeDefinition in string form', () => {
+      const definition = functions.getTypeDefinitionString([
+        'width-dash',
+        'classB'
+      ])
+      expect(definition).toEqual('{\n\t\'width-dash\': string;\n\tclassB: string;\n}')
+    })
   })
 
   describe('needsNewTypes', () => {

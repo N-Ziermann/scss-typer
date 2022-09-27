@@ -85,7 +85,8 @@ export function getClassNames (fileContent: string): string[] {
 export function getTypeDefinitionString (classes: string[]): string {
   let result = '{\n'
   classes.forEach((className) => {
-    result += `\t${className}: string;\n`
+    const cleanClassName = className.includes('-') ? `'${className}'` : className
+    result += `\t${cleanClassName}: string;\n`
   })
   return `${result}}`
 }
