@@ -1,19 +1,19 @@
-import { program } from 'commander'
-import { executeCommand } from './functions'
-import { main } from './index'
+import { program } from 'commander';
+import { executeCommand } from './functions';
+import { main } from './index';
 
 jest.mock('./functions', () => ({
-  executeCommand: jest.fn()
-}))
+  executeCommand: jest.fn(),
+}));
 
 jest.mock('fs', () => ({
   readFileSync: jest.fn().mockImplementation((path: string) => {
     if (path.includes('package.json')) {
-      return JSON.stringify({ version: '1.0.0' })
+      return JSON.stringify({ version: '1.0.0' });
     }
-    return 'templateText'
-  })
-}))
+    return 'templateText';
+  }),
+}));
 
 jest.mock('commander', () => ({
   program: {
@@ -23,24 +23,24 @@ jest.mock('commander', () => ({
     option: jest.fn().mockReturnThis(),
     parse: jest.fn().mockReturnThis(),
     args: [],
-    opts: jest.fn().mockReturnValue({})
-  }
-}))
+    opts: jest.fn().mockReturnValue({}),
+  },
+}));
 
 describe('index.ts', () => {
-  beforeEach(() => jest.clearAllMocks())
+  beforeEach(() => jest.clearAllMocks());
 
   it('should call executeCommand with the directory and the template', () => {
-    program.args = ['/test']
-    main()
-    expect(executeCommand).toHaveBeenCalledWith('/test', 'templateText', false)
-  })
+    program.args = ['/test'];
+    main();
+    expect(executeCommand).toHaveBeenCalledWith('/test', 'templateText', false);
+  });
 
   it('should class executeCommand with renew set to true if -a or --all flag was provided', () => {
-    const optsMock = (program.opts as jest.Mock)
-    optsMock.mockReturnValueOnce({ all: true })
-    program.args = ['/test']
-    main()
-    expect(executeCommand).toHaveBeenCalledWith('/test', 'templateText', true)
-  })
-})
+    const optsMock = program.opts as jest.Mock;
+    optsMock.mockReturnValueOnce({ all: true });
+    program.args = ['/test'];
+    main();
+    expect(executeCommand).toHaveBeenCalledWith('/test', 'templateText', true);
+  });
+});
