@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import {
   readFileSync,
   writeFileSync,
@@ -8,7 +7,7 @@ import {
 } from 'fs'
 import { join } from 'path'
 import { createHash } from 'crypto'
-import * as functions from './functions' // improves testability
+import * as functions from './functions' // import these functions to make it easier to mock them inside a unit test
 
 export function executeCommand (dir: string, template: string, renew: boolean): void {
   const fileNames = functions.getAllFiles(dir)
@@ -36,8 +35,8 @@ export function executeCommand (dir: string, template: string, renew: boolean): 
   console.info('Done creating files!\n')
 }
 
+/** Recursively gets all files in the defined directory */
 export function getAllFiles (location: string): string[] {
-  /* Recursively get all files in the defined directory */
   if (statSync(location).isFile()) {
     return [location]
   }
@@ -59,8 +58,11 @@ export function getHash (fileContent: string): string {
   return createHash('md5').update(fileContent).digest('hex')
 }
 
+/** 
+* checks if the defined file needs a new type definition or if there already is an up-to-date one
+* (if renew is set to true, then the function will assume every existing type definition to be out of date)
+*/
 export function needsNewTypes (filePath: string, hash: string, renew: boolean): boolean {
-  // renew creates new definition even if the current one is up to date
   if (filePath.endsWith('.module.scss')) {
     const definitionPath = `${filePath}.d.ts`
     console.info(definitionPath)
@@ -79,7 +81,7 @@ export function getClassNames (fileContent: string): string[] {
   const classRegex = /\.-?[_a-zA-Z][_a-zA-Z0-9-]*/g
   const matches = [...fileContent.matchAll(classRegex)]
   const classNames = matches.map((result) => result[0].replace('.', ''))
-  return [...new Set(classNames)] // removes duplicates
+  return [...new Set(classNames)]
 }
 
 export function getTypeDefinitionString (classes: string[]): string {
